@@ -2,7 +2,6 @@
 import discord
 import os
 from applications import schedule  # functionalities
-import datetime
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -18,9 +17,6 @@ async def on_ready():
     channel = client.get_channel(885181132239413272)
     await channel.send("NYA!!!  ( ⓛ ω ⓛ *)")
 
-
-
-    
 
 # Controller -> channel messages
 @client.event
