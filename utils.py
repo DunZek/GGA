@@ -1,8 +1,8 @@
 def isBinary(str):
-    print(str)
+    # print(str)
     binary = "01"
     if str[-1] != 'b':
-        print('No B!')
+        # print('No B!')
         return False
     for char in str:
         if char == 'b':
