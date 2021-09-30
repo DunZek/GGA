@@ -61,9 +61,10 @@ async def on_ready():
     # general = gg_general  # PRODUCTION
 
     # Online
-    # await gg_general.send("NYA!!!  ( ⓛ ω ⓛ *)")
+    await gg_general.send("NYA!!!  ( ⓛ ω ⓛ *)")
 
     # Automated daily messages
+    """
     while True:
         # Variables
         date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
@@ -121,6 +122,7 @@ async def on_ready():
                     embedded.add_field(name='\u200b', value=value, inline=False)
                     await general.send(embed=embedded)
                     time.sleep(1)
+    """
 
 # User messages
 @client.event
