@@ -1,6 +1,4 @@
-git+https://github.com/DunZek/GGA.git
-PyNaCl
-discord
+PyNaCl==1.3.0
+discord.py==1.6.0
 holidays
-dnspython
-async-timeout
+dnspython==1.16.0
