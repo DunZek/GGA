@@ -47,9 +47,79 @@ ID_PC = meta["GGA"]["ID_PC"]
 ID_MB = meta["GGA"]["ID_MB"]
 ID = str(meta["GGA"]["ID"])
 
+# Automated messages
+@tasks.loop(seconds=1)
+async def automated():
+    # Discord channels
+    test_general = client.get_channel(meta['Test']['channels']['general'])
+    gg_general = client.get_channel(meta['Group G']['channels']['general'])
+
+    # Variables
+    general = test_general  # TESTING
+    # general = gg_general  # PRODUCTION
+
+    # Automated daily messages
+    # Variables
+    date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
+    date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
+    date = date_utc
+    datestamp = date.strftime("%x")
+    timestamp = date.strftime("%X")
+    current_weekday = date.strftime("%A")
+
+    # Remind people to get sleep
+    print(timestamp)
+    if timestamp == "17:14:00":  # 21:00:00
+        await general.send("GO TO SLEEP  (≧▽≦)  SEE YOU TOMORROW!!")
+        # time.sleep(1)
+
+    # At 7, send first-line messages
+    if timestamp == "07:50:10":  # 07:50:00
+        await general.send("Ohayou  ^ω^")
+        # Remind weekend
+        if current_weekday not in weekdays:
+            await general.send("No school enjoy your weekend (≧ω≦)")
+        # Remind holidays/no schools/important days
+        elif datestamp in holiday_dates:
+            await general.send("It's a holiday no school!! (≧▽≦)")
+        # Give us our daily IT schedule
+        else:
+            embedded = discord.Embed(title=current_weekday, color=0xDC143C)
+            for Class in schedule[current_weekday]:
+                value = f'**{Class["Class"]}** \n'
+                value += f'Start - {Class["Start"]} \n'
+                value += f'Where - {Class["Where"]} \n'
+                value += f'End - {Class["End"]} \n'
+                embedded.add_field(name='\u200b', value=value, inline=False)
+            await general.send("Here's your schedule", embed=embedded)
+            await general.send("≧ω≦ do your best :heart:")
+        # time.sleep(1)
+
+    # Remind during class days (non-weekends and non-holidays)
+    if current_weekday in weekdays and datestamp not in holiday_dates:
+        today = schedule[current_weekday]
+        for i in range(len(today)):
+            Class = today[i]
+            # a fair well at the end of the day
+            if timestamp == timeToStamp(Class["End"]) and i + 1 == len(today):
+                await general.send("Classes have ended. Have a good afternoon! (≧▽≦)")
+                # time.sleep(1)
+            # or the next class
+            elif timestamp == timeToStamp(Class["End"]):
+                await general.send("Here's your next class ≧ω≦")
+                embedded = discord.Embed(title=current_weekday, color=0xDC143C)
+                value = f'**{today[i + 1]["Class"]}** \n'
+                value += f'Start - {today[i + 1]["Start"]} \n'
+                value += f'Where - {today[i + 1]["Where"]} \n'
+                value += f'End - {today[i + 1]["End"]} \n'
+                embedded.add_field(name='\u200b', value=value, inline=False)
+                await general.send(embed=embedded)
+                # time.sleep(1)
+
 # Start
 @client.event
 async def on_ready():
+    # Online
     print(f'{client.user} SASUGA DUNCAN-SAMA!')
 
     # Discord channels
@@ -60,69 +130,10 @@ async def on_ready():
     general = test_general  # TESTING
     # general = gg_general  # PRODUCTION
 
-    # Online
     await general.send("NYA!!!  ( ⓛ ω ⓛ *)")
+    # Start loop
+    automated.start()
 
-    # Automated daily messages
-    """
-    while True:
-        # Variables
-        date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
-        date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
-        date = date_mt
-        datestamp = date.strftime("%x")
-        timestamp = date.strftime("%X")
-        current_weekday = date.strftime("%A")
-
-        # Remind people to get sleep
-        print(timestamp)
-        if timestamp == "21:00:00":  # 21:00:00
-            await general.send("GO TO SLEEP (≧▽≦) SEE YOU TOMORROW!!")
-            time.sleep(1)
-
-        # At 7, send first-line messages
-        if timestamp == "07:50:10":  # 07:50:00
-            await general.send("Ohayou  ^ω^")
-            # Remind weekend
-            if current_weekday not in weekdays:
-                await general.send("No school enjoy your weekend (≧ω≦)")
-            # Remind holidays/no schools/important days
-            elif datestamp in holiday_dates:
-                await general.send("It's a holiday no school!! (≧▽≦)")
-            # Give us our daily IT schedule
-            else:
-                embedded = discord.Embed(title=current_weekday, color=0xDC143C)
-                for Class in schedule[current_weekday]:
-                    value = f'**{Class["Class"]}** \n'
-                    value += f'Start - {Class["Start"]} \n'
-                    value += f'Where - {Class["Where"]} \n'
-                    value += f'End - {Class["End"]} \n'
-                    embedded.add_field(name='\u200b', value=value, inline=False)
-                await general.send("Here's your schedule", embed=embedded)
-                await general.send("≧ω≦ do your best :heart:")
-            time.sleep(1)
-
-        # Remind during class days (non-weekends and non-holidays)
-        if current_weekday in weekdays and datestamp not in holiday_dates:
-            today = schedule[current_weekday]
-            for i in range(len(today)):
-                Class = today[i]
-                # a fair well at the end of the day
-                if timestamp == timeToStamp(Class["End"]) and i + 1 == len(today):
-                    await general.send("Classes have ended. Have a good afternoon! (≧▽≦)")
-                    time.sleep(1)
-                # or the next class
-                elif timestamp == timeToStamp(Class["End"]):
-                    await general.send("Here's your next class ≧ω≦")
-                    embedded = discord.Embed(title=current_weekday, color=0xDC143C)
-                    value = f'**{today[i + 1]["Class"]}** \n'
-                    value += f'Start - {today[i + 1]["Start"]} \n'
-                    value += f'Where - {today[i + 1]["Where"]} \n'
-                    value += f'End - {today[i + 1]["End"]} \n'
-                    embedded.add_field(name='\u200b', value=value, inline=False)
-                    await general.send(embed=embedded)
-                    time.sleep(1)
-    """
 
 # User messages
 @client.event
