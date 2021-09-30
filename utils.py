@@ -21,3 +21,13 @@ def isHexadecimal(str):
         if char not in hexadecimal and str[-1] != 'h':
             return False
     return True
+
+def timeToStamp(time):
+    import re
+    elements = re.split(':| ', time)
+    hour = 0 if elements[2] == 'AM' else 12
+    return f'{str(hour + int(elements[0])).zfill(2)}:{str(elements[1])}:00'
+
+# print(timeToStamp("4:30 PM"))  # 16:30:00
+# print(timeToStamp("10:50 AM"))  # 10:50:00
+# print(timeToStamp("8:00 AM"))  # 08:00:00

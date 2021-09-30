@@ -1,0 +1,21 @@
+{
+    "help": {
+        "Title": "Nya ( ⓛ ω ⓛ *)~~ you called for help",
+        "BtD": {
+            "Title": "**Binary-to-Decimal**",
+            "Description": "*Convert given binary number to decimal equivalent*",
+            "Usage": "  `Usage:: /([01]+b)+/`",
+            "Example": "    `Example::  \"110b 001b\"  // 6, 9`"
+        },
+        "HtD": {
+            "Title": "**Hexadecimal-to-Decimal**",
+            "Description": "*Convert given hexadecimal value to decimal equivalent*",
+            "Usage": "  `Usage:: /([0123456789ABCDEF]+h)+/`",
+            "Example": "`Example::  \"FFh 10h\"  // 15, 16`"
+        }
+    },
+    "goodnight": "GO TO SLEEP (≧▽≦) SEE YOU TOMORROW!!",
+    "goodmorning": "Ohayou  ^ω^",
+    "weekends": "no school enjoy your weekend (≧ω≦)",
+    "holiday": "it's a holiday no school!! (≧▽≦)"
+}

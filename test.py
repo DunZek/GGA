@@ -1,8 +1,28 @@
-hexadecimal = "0123456789ABCDEF"
-hex = "FF"
-power, value = 0, 0
-for i in range(len(hex), 0, -1):
-    char = hex[i - 1]
-    value += hexadecimal.find(char) * 16 ** power
-    power += 1
-print(value)
+schedule = {
+    "Wednesday": [
+        {
+            "Class": "Introduction to Networking",
+            "Start": "9:00 AM",
+            "Where": "Microsoft Teams",
+            "End": "10:50 AM"
+        },
+        {
+            "Class": "Professional Communication and Presentation Skills",
+            "Start": "12:00 PM",
+            "Where": "Zoom",
+            "End": "1:50 PM"
+        },
+        {
+            "Class": "Computer Programming Essentials",
+            "Start": "2:30 PM",
+            "Where": "Microsoft Teams",
+            "End": "4:20 PM"
+        }
+    ],
+}
+
+for Class in schedule["Wednesday"]:
+    # print(Class)
+    for info in Class:
+        print(info)
+        print()

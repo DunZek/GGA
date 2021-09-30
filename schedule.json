@@ -1,14 +1,90 @@
 {
     "Monday": [
-        "Computer Hardware & Operating System Essentials - CMPH": ["8:00 AM", "Microsoft Teams"],
-        "Information Technology Foundations - CMPS": ["12:00 PM", "Microsoft Teams"]
+        {
+            "Class": "Computer Hardware and Operating System Essentials",
+            "Start": "8:00 AM", 
+            "Where": "Microsoft Teams",
+            "End": "10:50 AM"
+        },
+        {
+            "Class": "Information Technology Foundations",
+            "Start": "12:00 PM", 
+            "Where": "Microsoft Teams",
+            "End": "2:50 PM"
+        }
     ],
     "Tuesday": [
-        "": [],
-        "": [],
-        "": []
+        {
+            "Class": "Information Technology Foundations",
+            "Start": "9:00 AM",
+            "Where": "Microsoft Teams",
+            "End": "10:50 AM"
+        },
+        {
+            "Class": "Professional Communication and Presentation Skills",
+            "Start": "12:00 PM",
+            "Where": "Zoom",
+            "End": "1:50 PM"
+        },
+        {
+            "Class": "Computer Programming Essentials",
+            "Start": "2:30 PM",
+            "Where": "Microsoft Teams",
+            "End": "4:20 PM"
+        }
     ],
-    "Wednesday": [],
-    "Thursday": [],
-    "Friday": [],
+    "Wednesday": [
+        {
+            "Class": "Introduction to Networking",
+            "Start": "9:00 AM",
+            "Where": "Microsoft Teams",
+            "End": "10:50 AM"
+        },
+        {
+            "Class": "Professional Communication and Presentation Skills",
+            "Start": "12:00 PM",
+            "Where": "Zoom",
+            "End": "1:50 PM"
+        },
+        {
+            "Class": "Computer Programming Essentials",
+            "Start": "2:30 PM",
+            "Where": "Microsoft Teams",
+            "End": "4:20 PM"
+        }
+    ],
+    "Thursday": [
+        {
+            "Class": "Introduction to Networking",
+            "Start": "8:00 AM",
+            "Where": "Microsoft Teams",
+            "End": "10:50 AM"
+        },
+        {
+            "Class": "Computer Hardware and Operating System Essentials",
+            "Start": "12:00 PM",
+            "Where": "Microsoft Teams",
+            "End": "2:50 PM"
+        }
+    ],
+    "Friday": [
+        {
+            "Class": "Professional Communication and Presentation Skills",
+            "Start": "9:00 AM",
+            "Where": "Zoom",
+            "End": "10:50 AM"
+        },
+        {
+            "Class": "Computer Programming Essentials",
+            "Start": "12:00 PM",
+            "Where": "Microsoft Teams",
+            "End": "1:50 PM"
+        },
+        {
+            "Class": "Introduction to Networking",
+            "Start": "2:30 PM",
+            "Where": "Microsoft Teams",
+            "End": "4:20 PM"
+        }
+    ]
 }
