@@ -11,11 +11,19 @@ from datetime import datetime
 import holidays
 import pytz
 import time
+from utils import *
+import re
 from keep_alive import keep_alive
-from utils import timeToStamp
+from discord.ext import commands, tasks
+from itertools import cycle
 
 client = discord.Client()
 
+# https://skidee.medium.com/host-a-discord-bot-24-7-online-for-free-4f30cd8ba78e
+status = cycle(['( ⓛ ω ⓛ *)', '(≧▽≦)'])
+@tasks.loop(seconds=10)
+async def change_status():
+    await client.change_presence(activity=discord.Game(next(status)))
 
 # Obtain JSON data
 import json
@@ -25,11 +33,16 @@ with open('messages.json') as f:
     messages = json.load(f)
 with open("schedule.json") as f:
     schedule = json.load(f)
-# Data
+# Data - on_ready
 weekdays = dict.keys(schedule)
 holiday_dates = [holiday[0].strftime("%x") for holiday in holidays.Canada(years=2021).items()]
 holiday_names = [holiday[1] for holiday in holidays.Canada(years=2021).items()]
+# Data - on_message
+ID_PC = meta["GGA"]["ID_PC"]
+ID_MB = meta["GGA"]["ID_MB"]
+ID = str(meta["GGA"]["ID"])
 
+# Start
 @client.event
 async def on_ready():
     print(f'{client.user} SASUGA DUNCAN-SAMA!')
@@ -40,13 +53,14 @@ async def on_ready():
 
     # Variables
     general = test_general  # for use
-    # date = datetime(2021, 9, 30, 17, 7, 0)
 
     # Online
     await test_general.send("NYA!!!  ( ⓛ ω ⓛ *)")
 
     # Automated daily messages
     while True:
+        # keep_alive
+        change_status.start()
         # Variables
         date_utc = pytz.timezone("UTC").localize(datetime.now())
         date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
@@ -102,13 +116,42 @@ async def on_ready():
                 await general.send(embed=embedded)
                 time.sleep(1)
 
-        
+# User messages
+@client.event
+async def on_message(message):
+    if message.author == client.user: return
+    print(message.content)
 
-# https://skidee.medium.com/host-a-discord-bot-24-7-online-for-free-4f30cd8ba78e
+    # Help - TODO
+    if re.match(f'^<@[!&]{ID}>$', message.content) is not None:
+        embedded = discord.Embed(title=current_weekday, color=0xDC143C)
+
+        await message.channel.send("Nya ( ⓛ ω ⓛ *)~~ you called for help", embed=embedded)
+
+    # Fun messages
+    if re.match(f'<@[!&]{ID}>', message.content) is not None:
+        if 'ohayou' in message.content:
+            await message.channel.send('GOZAIMASUUU!!!')
+        if 'you cute baby' in message.content:
+            await message.channel.send("BAKA (ˋ3ˊ)")
+
+    # Binary to Decimal
+    flag_start = isBinary(message.content.split(' ')[0])
+    flag_end = message.content.split(' ')[0][-1] == 'b'
+    if flag_start and flag_end:
+        result = f"Praise the OwO-nissiah: **{str(BtD(message.content.split(' ')))}**"
+        await message.channel.send(result)
+
+    # Hexadecimal to Decimal
+    flag_start = isHexadecimal(message.content.split(' ')[0])
+    flag_end = message.content.split(' ')[0][-1] == 'h'
+    if flag_start and flag_end:
+        result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
+        await message.channel.send(result)
+
+# keep_alive.py
 keep_alive()
-# Runs Client using bot token
 # from dotenv import load_dotenv
 # load_dotenv()
 # TOKEN = os.getenv('DISCORD_TOKEN')
-TOKEN = os.environ['DISCORD_TOKEN']
-client.run(TOKEN)
+client.run(os.environ['DISCORD_TOKEN'])

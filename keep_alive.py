@@ -1,3 +1,4 @@
+# https://skidee.medium.com/host-a-discord-bot-24-7-online-for-free-4f30cd8ba78e
 from flask import Flask
 from threading import Thread
 

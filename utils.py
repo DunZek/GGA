@@ -1,3 +1,17 @@
+# Binary to Decimal
+def BtD(words):
+    result = ""
+    for word in words:
+        if isBinary(word) and word[-1] == 'b':
+            value, power, = 0, 0
+            for i in range(len(word) - 1, 0, -1):
+                if word[i - 1] == "1":
+                    value += 2 ** power
+                power += 1
+            result += str(value) + " "
+    return result
+
+# a helper function
 def isBinary(str):
     # print(str)
     binary = "01"
@@ -15,6 +29,21 @@ def isBinary(str):
         #             return False
     return True
 
+# Hexadecimal to Decimal
+def HtD(words):
+    hexadecimal = "0123456789ABCDEF"
+    result = ""
+    for word in words:
+        if isHexadecimal(word) and word[-1] == 'h':
+            power, value = 0, 0
+            for i in range(len(word) - 1, 0, -1):
+                char = word[i - 1]
+                value += hexadecimal.find(char) * 16 ** power
+                power += 1
+            result += str(value) + " "
+    return result
+
+# a helper function
 def isHexadecimal(str):
     hexadecimal = "0123456789ABCDEF"
     for char in str:
@@ -27,7 +56,3 @@ def timeToStamp(time):
     elements = re.split(':| ', time)
     hour = 0 if elements[2] == 'AM' else 12
     return f'{str(hour + int(elements[0])).zfill(2)}:{str(elements[1])}:00'
-
-# print(timeToStamp("4:30 PM"))  # 16:30:00
-# print(timeToStamp("10:50 AM"))  # 10:50:00
-# print(timeToStamp("8:00 AM"))  # 08:00:00
