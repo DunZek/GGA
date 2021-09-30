@@ -34,7 +34,7 @@ def HtD(words):
     hexadecimal = "0123456789ABCDEF"
     result = ""
     for word in words:
-        if isHexadecimal(word) and word[-1] == 'h':
+        if isHexadecimal(word[:-1]) and word[-1] == 'h':
             power, value = 0, 0
             for i in range(len(word) - 1, 0, -1):
                 char = word[i - 1]
@@ -60,4 +60,4 @@ def timeToStamp(time):
 
 
 # -- dev. tests --
-# print(isHexadecimal('bruh'))
+# print(isHexadecimal('FAh'[:-1]))
