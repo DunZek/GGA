@@ -146,18 +146,16 @@ async def on_message(message):
         if 'you cute baby' in message.content:
             await message.channel.send("BAKA (ˋ3ˊ)")
 
-    # Binary to Decimal
-    flag_start = isBinary(message.content.split(' ')[0])
-    flag_end = message.content.split(' ')[0][-1] == 'b'
-    if flag_start and flag_end:
-        result = f"Praise the OwO-nissiah: **{str(BtD(message.content.split(' ')))}**"
-        await message.channel.send(result)
+        # Binary to Decimal
+        flag_start = isBinary(message.content.split(' ')[1])
+        if flag_start:
+            result = f"Praise the OwO-nissiah: **{str(BtD(message.content.split(' ')))}**"
+            await message.channel.send(result)
 
-    # Hexadecimal to Decimal
-    flag_start = isHexadecimal(message.content.split(' ')[0][:-1])
-    flag_end = message.content.split(' ')[0][-1] == 'h'
-    if flag_start and flag_end:
-        result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
-        await message.channel.send(result)
+        # Hexadecimal to Decimal
+        flag_start = isHexadecimal(message.content.split(' ')[1])
+        if flag_start:
+            result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
+            await message.channel.send(result)
 
 client.run("ODg5ODkwMjIz" + "OTA1OTkyNzE1.YUn0" + "2g.ckhiQeUNiFit6" + "3PKI3IR0mUFRBs")

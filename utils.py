@@ -15,12 +15,7 @@ def BtD(words):
 def isBinary(str):
     # print(str)
     binary = "01"
-    if str[-1] != 'b':
-        # print('No B!')
-        return False
     for char in str:
-        if char == 'b':
-            continue
         elif char not in binary:
             return False
         # if char != "1":
@@ -34,7 +29,7 @@ def HtD(words):
     hexadecimal = "0123456789ABCDEF"
     result = ""
     for word in words:
-        if isHexadecimal(word[:-1]) and word[-1] == 'h':
+        if isHexadecimal(word):
             power, value = 0, 0
             for i in range(len(word) - 1, 0, -1):
                 char = word[i - 1]
