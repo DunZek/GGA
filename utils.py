@@ -47,7 +47,7 @@ def HtD(words):
 def isHexadecimal(str):
     hexadecimal = "0123456789ABCDEF"
     for char in str:
-        if char not in hexadecimal and str[-1] != 'h':
+        if char not in hexadecimal:
             return False
     return True
 
@@ -57,3 +57,7 @@ def timeToStamp(time):
     elements = re.split(':| ', time)
     hour = 0 if elements[2] == 'AM' else 12
     return f'{str(hour + int(elements[0])).zfill(2)}:{str(elements[1])}:00'
+
+
+# -- dev. tests --
+# print(isHexadecimal('bruh'))
