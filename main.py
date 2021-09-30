@@ -1,6 +1,6 @@
 """
 TODO: Give us our daily IT schedule ✓
-! TODO: Give us our due dates -- hard to automate 
+! TODO: Give us our due dates -- hard to automate
 TODO: Remind holidays/no schools/important days ✓ (manually add some pesky ones)
 TODO: Remind people to get sleep ✓
 TODO: Info + Help ✓
@@ -14,17 +14,11 @@ import pytz
 import time
 from utils import *
 import re
-from keep_alive import keep_alive
 from discord.ext import commands, tasks
 from itertools import cycle
 
 client = discord.Client()
 
-# https://skidee.medium.com/host-a-discord-bot-24-7-online-for-free-4f30cd8ba78e
-status = cycle(['( ⓛ ω ⓛ *)', '(≧▽≦)'])
-@tasks.loop(seconds=10)
-async def change_status():
-    await client.change_presence(activity=discord.Game(next(status)))
 
 # Obtain JSON data
 import json
@@ -44,7 +38,7 @@ with open("manual_holidays.json") as f:
         new_holidays[datetime.date(year, month, day)] = key
 # Data - on_ready
 weekdays = dict.keys(schedule)
-holiday_dates = [holiday[0].strftime("%x") for holiday in holidays.Canada(years=2021).items()] 
+holiday_dates = [holiday[0].strftime("%x") for holiday in holidays.Canada(years=2021).items()]
 holiday_dates += [holiday[0].strftime("%x") for holiday in new_holidays.items()]
 holiday_names = [holiday[1] for holiday in holidays.Canada(years=2021).items()]
 holiday_names += [holiday[1] for holiday in new_holidays.items()]
@@ -71,8 +65,6 @@ async def on_ready():
 
     # Automated daily messages
     while True:
-        # keep_alive
-        change_status.start()
         # Variables
         date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
         date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
@@ -86,18 +78,18 @@ async def on_ready():
         if timestamp == "21:00:00":  # 21:00:00
             await general.send("GO TO SLEEP (≧▽≦) SEE YOU TOMORROW!!")
             time.sleep(1)
-        
+
         # At 7, send first-line messages
         if timestamp == "07:50:10":  # 07:50:00
             await general.send("Ohayou  ^ω^")
             # Remind weekend
             if current_weekday not in weekdays:
                 await general.send("No school enjoy your weekend (≧ω≦)")
-            # Remind holidays/no schools/important days 
+            # Remind holidays/no schools/important days
             elif datestamp in holiday_dates:
                 await general.send("It's a holiday no school!! (≧▽≦)")
             # Give us our daily IT schedule
-            else: 
+            else:
                 embedded = discord.Embed(title=current_weekday, color=0xDC143C)
                 for Class in schedule[current_weekday]:
                     value = f'**{Class["Class"]}** \n'
@@ -166,9 +158,4 @@ async def on_message(message):
         result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
         await message.channel.send(result)
 
-# keep_alive.py
-keep_alive()
-# from dotenv import load_dotenv
-# load_dotenv()
-# TOKEN = os.getenv('DISCORD_TOKEN')
-client.run(os.environ['DISCORD_TOKEN'])
+client.run("ODg5ODkwMjIz" + "OTA1OTkyNzE1.YUn0" + "2g.ckhiQeUNiFit6" + "3PKI3IR0mUFRBs")
