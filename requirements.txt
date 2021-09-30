@@ -1,2 +1,3 @@
+git+https://github.com/DunZek/GGA.git
 discord
 holidays
