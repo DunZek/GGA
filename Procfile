@@ -1,2 +1,1 @@
-discord
-holidays
+worker: python main.py
