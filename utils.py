@@ -16,7 +16,7 @@ def isBinary(str):
     # print(str)
     binary = "01"
     for char in str:
-        elif char not in binary:
+        if char not in binary:
             return False
         # if char != "1":
         #     if char != "0":
