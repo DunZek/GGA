@@ -2,7 +2,7 @@
 def BtD(words):
     result = ""
     for word in words:
-        if isBinary(word) and word[-1] == 'b':
+        if isBinary(word):
             value, power, = 0, 0
             for i in range(len(word) - 1, 0, -1):
                 if word[i - 1] == "1":
