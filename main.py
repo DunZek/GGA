@@ -62,7 +62,7 @@ async def automated():
     # Variables
     date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
     date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
-    date = date_utc
+    date = date_mt
     datestamp = date.strftime("%x")
     timestamp = date.strftime("%X")
     current_weekday = date.strftime("%A")
