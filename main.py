@@ -148,13 +148,15 @@ async def on_message(message):
 
         # Binary to Decimal
         flag_start = isBinary(message.content.split(' ')[1])
-        if flag_start:
+        flag_end = message.content[-1] == 'b'
+        if flag_start and flag_end:
             result = f"Praise the OwO-nissiah: **{str(BtD(message.content.split(' ')))}**"
             await message.channel.send(result)
 
         # Hexadecimal to Decimal
         flag_start = isHexadecimal(message.content.split(' ')[1])
-        if flag_start:
+        flag_end = message.content[-1] == 'h'
+        if flag_start and flag_end:
             result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
             await message.channel.send(result)
 
