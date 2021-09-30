@@ -51,6 +51,7 @@ def isHexadecimal(str):
             return False
     return True
 
+# Creating a timestamp -> strftime(%X) from "\d{1-2}:\d\d [AP]M"
 def timeToStamp(time):
     import re
     elements = re.split(':| ', time)

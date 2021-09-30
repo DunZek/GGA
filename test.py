@@ -1,28 +1,25 @@
-schedule = {
-    "Wednesday": [
-        {
-            "Class": "Introduction to Networking",
-            "Start": "9:00 AM",
-            "Where": "Microsoft Teams",
-            "End": "10:50 AM"
-        },
-        {
-            "Class": "Professional Communication and Presentation Skills",
-            "Start": "12:00 PM",
-            "Where": "Zoom",
-            "End": "1:50 PM"
-        },
-        {
-            "Class": "Computer Programming Essentials",
-            "Start": "2:30 PM",
-            "Where": "Microsoft Teams",
-            "End": "4:20 PM"
-        }
-    ],
-}
+import json
+import holidays
+import datetime
+with open('./manual_holidays.json') as f:
+    man_holidays = json.load(f)
 
-for Class in schedule["Wednesday"]:
-    # print(Class)
-    for info in Class:
-        print(info)
-        print()
+holiday_dates = [holiday[0].strftime("%x") for holiday in holidays.Canada(years=2021).items()]
+holiday_names = [holiday[1] for holiday in holidays.Canada(years=2021).items()]
+
+print(man_holidays)
+
+holidays = {}
+for key in man_holidays:
+    year = man_holidays[key][0]
+    month = man_holidays[key][1]
+    day = man_holidays[key][2]
+    holidays[dt.date(year, month, day)] = key
+print(holidays)
+
+for item in holidays:
+    print(item)
+
+holiday_dates += [holiday[0].strftime("%x") for holiday in holidays.items()]
+
+print(holiday_dates)
