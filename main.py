@@ -4,7 +4,8 @@ TODO: Give us our daily IT schedule ✓
 TODO: Remind holidays/no schools/important days ✓ (manually add some pesky ones)
 TODO: Remind people to get sleep ✓
 TODO: Info + Help ✓
-!!! TODO: Redo code structure to enable background process while time keeping
+TODO: Redo code structure to enable background process while time keeping ✓
+! TODO: Add mute/unmute command
 """
 import discord
 import os
@@ -55,8 +56,8 @@ async def automated():
     gg_general = client.get_channel(meta['Group G']['channels']['general'])
 
     # Variables
-    general = test_general  # TESTING
-    # general = gg_general  # PRODUCTION
+    # general = test_general  # TESTING
+    general = gg_general  # PRODUCTION
 
     # Automated daily messages
     # Variables
@@ -68,8 +69,8 @@ async def automated():
     current_weekday = date.strftime("%A")
 
     # Remind people to get sleep
-    print(timestamp)
-    if timestamp == "17:40:30":  # 21:00:00
+    # print(timestamp)
+    if timestamp == "21:00:00":  # 21:00:00
         await general.send("GO TO SLEEP  (≧▽≦)  SEE YOU TOMORROW!!")
         # time.sleep(1)
 
