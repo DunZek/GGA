@@ -154,7 +154,7 @@ async def on_message(message):
         await message.channel.send(result)
 
     # Hexadecimal to Decimal
-    flag_start = isHexadecimal(message.content.split(' ')[0])
+    flag_start = isHexadecimal(message.content.split(' ')[0][:-1])
     flag_end = message.content.split(' ')[0][-1] == 'h'
     if flag_start and flag_end:
         result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
