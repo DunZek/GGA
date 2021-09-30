@@ -61,7 +61,7 @@ async def on_ready():
     # general = gg_general  # PRODUCTION
 
     # Online
-    await gg_general.send("NYA!!!  ( ⓛ ω ⓛ *)")
+    await general.send("NYA!!!  ( ⓛ ω ⓛ *)")
 
     # Automated daily messages
     """
