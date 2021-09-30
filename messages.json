@@ -13,13 +13,11 @@
             "",
             "**Binary-to-Decimal**",
             "*Convert given binary number to decimal equivalent*",
-            "\t`Usage:: /([01]+b)+/`",
-            "\t`Example::  \"110b 001b\"  // 6, 9`",
+            "\t`Example::  \"@Group G AI 110 001 b\"  // 6, 9`",
             "",
             "**Hexadecimal-to-Decimal**",
             "*Convert given hexadecimal value to decimal equivalent*",
-            "\t`Usage:: /([0123456789ABCDEF]+h)+/`",
-            "\t`Example::  \"FFh 10h\"  // 255, 16`"
+            "\t`Example::  \"@Group G AI FF 10 h\"  // 255, 16`"
         ]
     },
     "goodnight": "GO TO SLEEP (≧▽≦) SEE YOU TOMORROW!!",
