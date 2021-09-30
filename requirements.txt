@@ -1,3 +1,6 @@
 git+https://github.com/DunZek/GGA.git
+PyNaCl
 discord
 holidays
+dnspython
+async-timeout
