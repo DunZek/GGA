@@ -70,7 +70,7 @@ async def automated():
 
     # Remind people to get sleep
     # print(timestamp)
-    if timestamp == "21:00:00":  # 21:00:00
+    if timestamp == "23:00:00":  # 23:00:00
         await general.send("GO TO SLEEP  (≧▽≦)  SEE YOU TOMORROW!!")
         # time.sleep(1)
 
