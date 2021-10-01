@@ -4,7 +4,7 @@ def BtD(words):
     for word in words:
         if isBinary(word):
             value, power, = 0, 0
-            for i in range(len(word) - 1, 0, -1):
+            for i in range(len(word), 0, -1):
                 if word[i - 1] == "1":
                     value += 2 ** power
                 power += 1
@@ -31,7 +31,7 @@ def HtD(words):
     for word in words:
         if isHexadecimal(word):
             power, value = 0, 0
-            for i in range(len(word) - 1, 0, -1):
+            for i in range(len(word), 0, -1):
                 char = word[i - 1]
                 value += hexadecimal.find(char) * 16 ** power
                 power += 1
@@ -55,4 +55,5 @@ def timeToStamp(time):
 
 
 # -- dev. tests --
-# print(isHexadecimal('FAh'[:-1]))
+# print(HtD(["FF"]))
+# print(BtD(["1"]))
