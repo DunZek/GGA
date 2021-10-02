@@ -1,13 +1,17 @@
-import requests
-import urllib.request
-import time
-from bs4 import BeautifulSoup as BS
+from bs4 import BeautifulSoup
 
-url = "https://learn.sait.ca/d2l/le/calendar/6605?ou=6605"
-response = requests.get(url)
-print(response)
-soup = BS(response.text, "html.parser")
-tag = soup.find(class_="d2l-le-calendar-event")
-print(type(soup))
-for el in soup:
-    print(type(el))
+with open('html/october.html') as oct, open('html/november.html') as nov, open('html/december.html') as dec:
+    html = oct.read()
+
+soup = BeautifulSoup(html, "html.parser")
+
+titles = soup.find_all('span', attrs={"class" : "d2l-le-calendar-event-title"})
+times = soup.find_all('span', attrs={"class" : "d2l-le-calendar-event-time"})
+
+print(titles[0].contents[0])
+print(times[0].contents[0])
+# print(times)
+
+school = zip([title.contents[0] for title in titles], [time.contents[0] for time in times])
+
+for item in school: print(item)
