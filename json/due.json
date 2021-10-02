@@ -1,11 +1,98 @@
 {
-    "October" : {
-        "3" : {
-            "Assignment" : "Time",
-            "Assignment" : "Time",
+    "October": {
+        "3": {
+            "Chapter 3: Programming Project 1 - Due": "11:59 PM",
+            "Complete Revel Quizzes - Due": "11:59 PM",
+            "Assign#2  System Components - Due": "11:59 PM",
+            "Lab #3  Windows 10 Installation & Administration-I - Due": "11:59 PM"
         },
-        "8" : {
-            "Assignment" : "Time"
+        "4": {
+            "Week 3 Reflection - Due": "11:59 PM",
+            "Week 3 - Resilience Questionaire - Due": "11:59 PM"
+        },
+        "6": {
+            "Practice Lab Exam #1 - Availability Ends": "11:59 PM"
+        },
+        "8": {
+            "Check Lab 2 - Due": "11:30 PM"
+        },
+        "10": {
+            "Complete Programming Project Revel Chapter 4 - Due": "11:59 PM",
+            "Complete Revel Quizzes Chapter 4 - Due": "11:59 PM"
+        },
+        "14": {
+            "Assign#3  Ticketing Systems - Due": "3:00 PM"
+        },
+        "15": {
+            "Quiz 3 (Chapters 5, 6, 7, 9) v2 - Availability Ends": "3:00 PM"
+        },
+        "17": {
+            "Revel Chapter 5: Programming Project 5 - Due": "11:59 PM",
+            "Complete Revel Quizzes Revel Chapter 5 - Due": "11:59 PM"
+        },
+        "21": {
+            "Lab #4 Windows 10 Administration-II - Availability Ends": "6:00 PM"
+        },
+        "24": {
+            "Practice Lab Exam #2 - Availability Ends": "11:59 PM"
+        },
+        "29": {
+            "Quiz#4  Virtualization and Cloud Computing - Availability Ends": "3:00 PM"
+        },
+        "31": {
+            "Revel Chapter 12 Quizzes - Due": "11:59 PM",
+            "Revel Chapter 12: Programming Project 1 - Due": "11:59 PM"
+        }
+    },
+    "November": {
+        "1": {
+            "Lab #5  Windows 10 Administration-III - Availability Ends": "6:00 PM"
+        },
+        "7": {
+            "Revel Chapter 6: Programming Project 5 - Due": "11:59 PM",
+            "Revel Chapter 6 Quizzes - Due": "11:59 PM"
+        },
+        "8": {
+            "Lab #6  Windows Backup and Restore - Availability Ends": "6:00 PM"
+        },
+        "12": {
+            "Assignment#4  Troubleshooting - Due": "6:00 PM"
+        },
+        "18": {
+            "Lab #7  Linux Install-I - Availability Ends": "6:00 PM"
+        },
+        "21": {
+            "Practice Lab Exam #3 - Availability Ends": "11:59 PM",
+            "Revel Chapter 7 Programming Project 2 - Due": "11:59 PM",
+            "Revel Chapter 7 Quizzes - Due": "11:59 PM"
+        },
+        "22": {
+            "Lab #8  Linux Adminstration-II - Availability Ends": "6:00 PM"
+        },
+        "25": {
+            "Lab #9  Linux Administration-III - Availability Ends": "6:00 PM"
+        },
+        "28": {
+            "Revel Chapter 11 Programming Project 1 - Due": "11:59 PM",
+            "Revel Chapter 11 Quiz - Due": "11:59 PM"
+        },
+        "29": {
+            "Week 13 - Available": "9:00 AM"
+        }
+    },
+    "December": {
+        "5": {
+            "Revel Chapter 9: Programming Project 1 - Due": "11:59 PM",
+            "Revel Chapter 9 Quizzes - Due": "11:59 PM"
+        },
+        "10": {
+            "Assignment#5  Computer Upgrade Final Project - Due": "6:00 PM"
+        },
+        "12": {
+            "Practice Lab Exam #4 - Availability Ends": "11:59 PM"
+        },
+        "14": {
+            "CMPH211 Final Exam v1 - Availability Ends": "8:00 AM"
         }
     }
 }
