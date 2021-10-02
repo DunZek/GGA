@@ -51,8 +51,8 @@ def timeToStamp(time):
 # Generate schedule
 def getSchedule(weekday, schedule):
     import discord
-    embedded = discord.Embed(title=current_weekday, color=0xDC143C)
-    for Class in schedule[current_weekday]:
+    embedded = discord.Embed(title=weekday, color=0xDC143C)
+    for Class in schedule[weekday]:
         value = f'**{Class["Class"]}** \n'
         value += f'Start - {Class["Start"]} \n'
         value += f'Where - {Class["Where"]} \n'

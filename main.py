@@ -7,7 +7,7 @@ x TODO #3: Remind holidays/no schools/important days (manually add some pesky on
 
 Manual:
 x TODO #6: Add mute/unmute command -> unmute after 00:00:00, show status <---
-! TODO #7: return schedule
+x TODO #7: return schedule
 """
 import discord
 # Dealing with dates, holidays
@@ -64,6 +64,7 @@ async def automated():
 
     # Send first-line messages - no school
     if timestamp == "08:00:00":
+        await general.send("Ohayou  ^ω^")
         # Remind weekend
         if current_weekday not in weekdays:
             await general.send("No school enjoy your weekend (≧ω≦)")
@@ -78,11 +79,10 @@ async def automated():
     # Send first-line messages - weekdays
     startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
     if timestamp == startOfClass[:3] + "45" + startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
-        await general.send("Ohayou  ^ω^")
         # Give us our daily IT schedule
-        else:
-            await general.send("Here's your schedule", embed=getSchedule(current_weekday, schedule))
-            await general.send("≧ω≦ do your best :heart:")
+        await general.send("Ohayou  ^ω^")
+        await general.send("Here's your schedule", embed=getSchedule(current_weekday, schedule))
+        await general.send("≧ω≦ do your best :heart:")
 
     # Remind during class days (non-weekends and non-holidays)
     if current_weekday in weekdays and datestamp not in holiday_dates:
@@ -134,7 +134,7 @@ async def on_message(message):
             datestamp = date.strftime("%x")
             timestamp = date.strftime("%X")
             current_weekday = date.strftime("%A")
-            if current_weekday not in weekdays or datestamp not in holiday_dates:
+            if current_weekday not in weekdays or datestamp in holiday_dates:
                 await message.channel.send("You don't have school today ( ⓛ ω ⓛ *)")
             else:
                 await message.channel.send("Here's your schedule for this day", embed=getSchedule(current_weekday, schedule))
