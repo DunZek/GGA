@@ -25,7 +25,6 @@ with open("json/manual_holidays.json") as f:
         month = man_holidays[key][1]
         day = man_holidays[key][2]
         new_holidays[datetime.date(year, month, day)] = key
-    # For automated
     weekdays = dict.keys(schedule)
     holiday_dates = [holiday[0].strftime("%x") for holiday in holidays.Canada(years=2021).items()]
     holiday_dates += [holiday[0].strftime("%x") for holiday in new_holidays.items()]
@@ -35,3 +34,6 @@ with open("json/manual_holidays.json") as f:
 # Flags
 with open("json/flags.json") as f:
     flags = json.load(f)
+
+# Other
+current_month = datetime.datetime.now().strftime("%B")  # Returns full month name -> "January"

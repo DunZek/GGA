@@ -2,12 +2,14 @@
 Core:
 
 Automated:
-! TODO #2: Give us our due dates -- hard to automate
-x TODO #3: Remind holidays/no schools/important days (manually add some pesky ones)
+! TODO B: Remind us of our due dates
+! TODO A: Automate due date data capture via scraping
+x TODO C: Remind holidays/no schools/important days (manually add some pesky ones)
 
 Manual:
-x TODO #6: Add mute/unmute command -> unmute after 00:00:00, show status <---
-x TODO #7: return schedule
+x TODO D: Give us our due dates
+x TODO E: Add mute/unmute command -> unmute after 00:00:00, show status <---
+x TODO F: return schedule
 """
 import discord
 # Dealing with dates, holidays
@@ -18,7 +20,7 @@ import re
 from utils import *
 # Data
 from data import *
-from scrape import *
+from scrape import result as due_dates
 
 client = discord.Client()
 
@@ -46,7 +48,7 @@ async def automated():
     current_weekday = date.strftime("%A")
 
     # Log
-    print(timestamp)
+    # print(timestamp)
 
     # Unmute automated messages at midnight
     if timestamp == "00:00:00":
@@ -123,8 +125,17 @@ async def on_message(message):
 
     # Commands beginning with ping
     if re.match(f'^<@[!&]*{ID}>', message.content):
+        # Return recorded due dates of the month
+        if re.search('[dD]ue$', message.content):
+            await message.channel.send("Here are your due dates since recorded last time", embed=getDue(due_dates, current_month))
+        # Return recorded every due date
+        if re.search('[dD]ue [aA]ll$', message.content):
+            await message.channel.send("Here are your due dates since recorded last time")
+            for m in due_dates:
+                await message.channel.send(embed=getDue(due_dates, m))
+
         # Return schedule
-        if re.search(' [sS]chedule$', message.content):
+        if re.search('[sS]chedule$', message.content):
             # Variables
             date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
             date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
@@ -141,18 +152,18 @@ async def on_message(message):
                 await message.channel.send("Here's your schedule for this day", embed=getSchedule(current_weekday, schedule))
 
         # Mute/Unmute automated messages
-        if re.search(' [mM]ute$', message.content):
-            with open('./flags.json', 'w') as f:
-                flags['mute'] = True
-                json.dump(flags, f)
-            await message.channel.send("*automated messages muted until the next day*")
-            await client.change_presence(activity=discord.Game("muted"))
-        elif re.search(' [uU]nmute$', message.content):
+        if re.search('[uU]nmute$', message.content):
             with open('./flags.json', 'w') as f:
                 flags['mute'] = False
                 json.dump(flags, f)
             await message.channel.send("*automated messages unmuted*")
             await client.change_presence(activity=None)
+        elif re.search('[mM]ute$', message.content):
+            with open('./flags.json', 'w') as f:
+                flags['mute'] = True
+                json.dump(flags, f)
+            await message.channel.send("*automated messages muted until the next day*")
+            await client.change_presence(activity=discord.Game("muted"))
 
         # Binary to Decimal
         flag_start = isBinary(message.content.split(' ')[1])
