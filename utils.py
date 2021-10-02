@@ -48,6 +48,17 @@ def timeToStamp(time):
     hour = 0 if elements[2] == 'AM' else 12
     return f'{str(hour + int(elements[0])).zfill(2)}:{str(elements[1])}:00'
 
+# Generate schedule
+def getSchedule(weekday, schedule):
+    import discord
+    embedded = discord.Embed(title=current_weekday, color=0xDC143C)
+    for Class in schedule[current_weekday]:
+        value = f'**{Class["Class"]}** \n'
+        value += f'Start - {Class["Start"]} \n'
+        value += f'Where - {Class["Where"]} \n'
+        value += f'End - {Class["End"]} \n'
+        embedded.add_field(name='\u200b', value=value, inline=False)
+    return embedded
 
 # -- dev. tests --
 # print(HtD(["FF"]))

@@ -6,11 +6,11 @@ Automated:
 x TODO #3: Remind holidays/no schools/important days (manually add some pesky ones)
 
 Manual:
-! TODO #6: Add mute/unmute command -> unmute after 00:00:00, show status <---
+x TODO #6: Add mute/unmute command -> unmute after 00:00:00, show status <---
 ! TODO #7: return schedule
 """
 import discord
-# Dealing with dates, holidays, timezones
+# Dealing with dates, holidays
 import datetime, holidays, pytz
 # Utilities
 from discord.ext import tasks
@@ -27,16 +27,25 @@ async def automated():
     # Discord channels
     test_general = client.get_channel(meta['Test']['channels']['general'])
     gg_general = client.get_channel(meta['Group G']['channels']['general'])
-    # general = test_general  # TESTING
-    general = gg_general  # PRODUCTION
+    # Setup to send automated messages
+    if meta["Production"]:
+        general = gg_general  # PRODUCTION
+    else:
+        general = test_general  # TESTING
 
     # Variables
     date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
     date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
-    date = date_mt
+    if meta["Testing"]:
+        date = date_utc  # TESTING
+    else:
+        date = date_mt  # PRODUCTION
     datestamp = date.strftime("%x")
     timestamp = date.strftime("%X")
     current_weekday = date.strftime("%A")
+
+    # Log
+    print(timestamp)
 
     # Unmute automated messages at midnight
     if timestamp == "00:00:00":
@@ -48,34 +57,31 @@ async def automated():
     if flags['mute']:
         return
 
-    # Log
-    # print(timestamp)
-
     # Using midnight 00:00:00
     if timestamp == "00:00:00":
         # Remind people to get sleep
         await general.send("GO TO SLEEP-- (≧▽≦) --SEE YOU TOMORROW!!")
 
-    # Send first-line messages
-    startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
-    if timestamp == startOfClass[:3] + "45" + startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
-        await general.send("Ohayou  ^ω^")
+    # Send first-line messages - no school
+    if timestamp == "08:00:00":
         # Remind weekend
         if current_weekday not in weekdays:
             await general.send("No school enjoy your weekend (≧ω≦)")
         # Remind holidays/no schools/important days
         elif datestamp in holiday_dates:
             await general.send("It's a holiday no school!! (≧▽≦)")
+
+    # Return if no school
+    if current_weekday not in schedule:
+        return
+
+    # Send first-line messages - weekdays
+    startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
+    if timestamp == startOfClass[:3] + "45" + startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
+        await general.send("Ohayou  ^ω^")
         # Give us our daily IT schedule
         else:
-            embedded = discord.Embed(title=current_weekday, color=0xDC143C)
-            for Class in schedule[current_weekday]:
-                value = f'**{Class["Class"]}** \n'
-                value += f'Start - {Class["Start"]} \n'
-                value += f'Where - {Class["Where"]} \n'
-                value += f'End - {Class["End"]} \n'
-                embedded.add_field(name='\u200b', value=value, inline=False)
-            await general.send("Here's your schedule", embed=embedded)
+            await general.send("Here's your schedule", embed=getSchedule(current_weekday, schedule))
             await general.send("≧ω≦ do your best :heart:")
 
     # Remind during class days (non-weekends and non-holidays)
@@ -106,7 +112,7 @@ async def on_message(message):
     print(f'"{message.content}"')
 
     # Help
-    if re.match(f'^<@[!&]*{ID}>[ ]*([hH]elp)*$', message.content) is not None:
+    if re.match(f'^<@[!&]*{ID}>[ ]*([hH]elp)*$', message.content):
         result = ''
         embedded = discord.Embed(title=messages["help"]["Title"], color=0xDC143C)
         for string in messages["help"]["Strings"]:
@@ -115,24 +121,37 @@ async def on_message(message):
         await message.channel.send("Nya ( ⓛ ω ⓛ *)~~ you called for help", embed=embedded)
 
     # Commands beginning with ping
-    if re.match(f'\b<@[!&]*{ID}>', message.content) is not None:
-        # Some fun messages
-        if 'ohayou' in message.content:
-            await message.channel.send('GOZAIMASUUU!!!')
-        if 'you cute baby' in message.content:
-            await message.channel.send("BAKA (ˋ3ˊ)")
+    if re.match(f'^<@[!&]*{ID}>', message.content):
+        # Return schedule
+        if re.search(' [sS]chedule$', message.content):
+            # Variables
+            date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
+            date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
+            if meta["Testing"]:
+                date = date_utc  # TESTING
+            else:
+                date = date_mt  # PRODUCTION
+            datestamp = date.strftime("%x")
+            timestamp = date.strftime("%X")
+            current_weekday = date.strftime("%A")
+            if current_weekday not in weekdays or datestamp not in holiday_dates:
+                await message.channel.send("You don't have school today ( ⓛ ω ⓛ *)")
+            else:
+                await message.channel.send("Here's your schedule for this day", embed=getSchedule(current_weekday, schedule))
 
         # Mute/Unmute automated messages
-        if 'mute' in message.content:
-            with open('flags.json', 'w') as f:
+        if re.search(' [mM]ute$', message.content):
+            with open('./flags.json', 'w') as f:
                 flags['mute'] = True
                 json.dump(flags, f)
-            await message.send.channel("*automated messages muted until the next day*")
-        elif 'unmute' in message.content:
-            with open('flags.json', 'w') as f:
+            await message.channel.send("*automated messages muted until the next day*")
+            await client.change_presence(activity=discord.Game("muted"))
+        elif re.search(' [uU]nmute$', message.content):
+            with open('./flags.json', 'w') as f:
                 flags['mute'] = False
                 json.dump(flags, f)
-            await message.send.channel("*automated messages unmuted*")
+            await message.channel.send("*automated messages unmuted*")
+            await client.change_presence(activity=None)
 
         # Binary to Decimal
         flag_start = isBinary(message.content.split(' ')[1])
@@ -148,6 +167,11 @@ async def on_message(message):
             result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
             await message.channel.send(result)
 
+        # Some fun messages
+        if 'ohayou' in message.content:
+            await message.channel.send('GOZAIMASUUU!!!')
+        if 'you cute baby' in message.content:
+            await message.channel.send("BAKA (ˋ3ˊ)")
 
 # Start
 @client.event

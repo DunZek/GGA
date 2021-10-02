@@ -1,7 +1,7 @@
 import json, datetime, holidays
 
 # Meta data
-with open('meta.json') as f:
+with open('json/meta.json') as f:
     meta = json.load(f)
     # For on_message
     ID_PC = meta["GGA"]["ID_PC"]
@@ -9,15 +9,15 @@ with open('meta.json') as f:
     ID = str(meta["GGA"]["ID"])
 
 # Messages
-with open('messages.json') as f:
+with open('json/messages.json') as f:
     messages = json.load(f)
 
 # Class Schedule
-with open("schedule.json") as f:
+with open("json/schedule.json") as f:
     schedule = json.load(f)
 
 # List of holidays
-with open("manual_holidays.json") as f:
+with open("json/manual_holidays.json") as f:
     man_holidays = json.load(f)
     new_holidays = {}
     for key in man_holidays:
@@ -33,5 +33,5 @@ with open("manual_holidays.json") as f:
     holiday_names += [holiday[1] for holiday in new_holidays.items()]
 
 # Flags
-with open("flags.json") as f:
+with open("json/flags.json") as f:
     flags = json.load(f)
