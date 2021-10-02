@@ -1,4 +1,3 @@
-print("DEBUG TOP")
 """
 Core:
 
@@ -25,8 +24,6 @@ from scrape import result as due_dates
 
 client = discord.Client()
 
-print("DEBUG START")
-
 # Automated messages
 @tasks.loop(seconds=1)
 async def automated():
@@ -51,7 +48,7 @@ async def automated():
     current_weekday = date.strftime("%A")
 
     # Log
-    print(timestamp)
+    # print(timestamp)
 
     # Unmute automated messages at midnight
     if timestamp == "00:00:00":
@@ -207,5 +204,4 @@ async def on_ready():
     automated.start()
 
 # Because Discord will nullify tokens if it tracks them online
-print("DEBUG END")
 client.run("ODg5ODkwMjIz" + "OTA1OTkyNzE1.YUn0" + "2g.ckhiQeUNiFit6" + "3PKI3IR0mUFRBs")
