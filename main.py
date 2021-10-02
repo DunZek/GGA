@@ -18,6 +18,7 @@ import re
 from utils import *
 # Data
 from data import *
+from scrape import *
 
 client = discord.Client()
 
