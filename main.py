@@ -115,7 +115,7 @@ async def on_message(message):
         await message.channel.send("Nya ( ⓛ ω ⓛ *)~~ you called for help", embed=embedded)
 
     # Commands beginning with ping
-    if re.match(rf'\b<@[!&]*{ID}>', message.content) is not None:
+    if re.match(f'\b<@[!&]*{ID}>', message.content) is not None:
         # Some fun messages
         if 'ohayou' in message.content:
             await message.channel.send('GOZAIMASUUU!!!')
