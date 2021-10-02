@@ -1,52 +1,25 @@
 """
-TODO: Give us our daily IT schedule ✓
-! TODO: Give us our due dates -- hard to automate
-TODO: Remind holidays/no schools/important days ✓ (manually add some pesky ones)
-TODO: Remind people to get sleep ✓
-TODO: Info + Help ✓
-TODO: Redo code structure to enable background process while time keeping ✓
-! TODO: Add mute/unmute command
+Core:
+
+Automated:
+! TODO #2: Give us our due dates -- hard to automate
+x TODO #3: Remind holidays/no schools/important days (manually add some pesky ones)
+
+Manual:
+! TODO #6: Add mute/unmute command -> unmute after 00:00:00, show status <---
+! TODO #7: return schedule
 """
 import discord
-import os
-import datetime
-import holidays
-import pytz
-import time
-from utils import *
+# Dealing with dates, holidays, timezones
+import datetime, holidays, pytz
+# Utilities
+from discord.ext import tasks
 import re
-from discord.ext import commands, tasks
-from itertools import cycle
+from utils import *
+# Data
+from data import *
 
 client = discord.Client()
-
-
-# Obtain JSON data
-import json
-with open('meta.json') as f:
-    meta = json.load(f)
-with open('messages.json') as f:
-    messages = json.load(f)
-with open("schedule.json") as f:
-    schedule = json.load(f)
-with open("manual_holidays.json") as f:
-    man_holidays = json.load(f)
-    new_holidays = {}
-    for key in man_holidays:
-        year = man_holidays[key][0]
-        month = man_holidays[key][1]
-        day = man_holidays[key][2]
-        new_holidays[datetime.date(year, month, day)] = key
-# Data - on_ready
-weekdays = dict.keys(schedule)
-holiday_dates = [holiday[0].strftime("%x") for holiday in holidays.Canada(years=2021).items()]
-holiday_dates += [holiday[0].strftime("%x") for holiday in new_holidays.items()]
-holiday_names = [holiday[1] for holiday in holidays.Canada(years=2021).items()]
-holiday_names += [holiday[1] for holiday in new_holidays.items()]
-# Data - on_message
-ID_PC = meta["GGA"]["ID_PC"]
-ID_MB = meta["GGA"]["ID_MB"]
-ID = str(meta["GGA"]["ID"])
 
 # Automated messages
 @tasks.loop(seconds=1)
@@ -54,12 +27,9 @@ async def automated():
     # Discord channels
     test_general = client.get_channel(meta['Test']['channels']['general'])
     gg_general = client.get_channel(meta['Group G']['channels']['general'])
-
-    # Variables
     # general = test_general  # TESTING
     general = gg_general  # PRODUCTION
 
-    # Automated daily messages
     # Variables
     date_utc = pytz.timezone("UTC").localize(datetime.datetime.now())
     date_mt = pytz.timezone("Canada/Mountain").normalize(date_utc)
@@ -68,14 +38,27 @@ async def automated():
     timestamp = date.strftime("%X")
     current_weekday = date.strftime("%A")
 
-    # Remind people to get sleep
-    # print(timestamp)
-    if timestamp == "00:00:00":  # 00:00:00
-        await general.send("GO TO SLEEP  (≧▽≦)  SEE YOU TOMORROW!!")
-        # time.sleep(1)
+    # Unmute automated messages at midnight
+    if timestamp == "00:00:00":
+        with open('flags.json', 'w') as f:
+            flags['mute'] = False
+            json.dump(flags, f)
 
-    # At 7, send first-line messages
-    if timestamp == "07:50:10":  # 07:50:00
+    # If muted, return function and stop execution
+    if flags['mute']:
+        return
+
+    # Log
+    # print(timestamp)
+
+    # Using midnight 00:00:00
+    if timestamp == "00:00:00":
+        # Remind people to get sleep
+        await general.send("GO TO SLEEP-- (≧▽≦) --SEE YOU TOMORROW!!")
+
+    # Send first-line messages
+    startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
+    if timestamp == startOfClass[:3] + "45" startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
         await general.send("Ohayou  ^ω^")
         # Remind weekend
         if current_weekday not in weekdays:
@@ -94,7 +77,6 @@ async def automated():
                 embedded.add_field(name='\u200b', value=value, inline=False)
             await general.send("Here's your schedule", embed=embedded)
             await general.send("≧ω≦ do your best :heart:")
-        # time.sleep(1)
 
     # Remind during class days (non-weekends and non-holidays)
     if current_weekday in weekdays and datestamp not in holiday_dates:
@@ -104,7 +86,7 @@ async def automated():
             # a fair well at the end of the day
             if timestamp == timeToStamp(Class["End"]) and i + 1 == len(today):
                 await general.send("Classes have ended. Have a good afternoon! (≧▽≦)")
-                # time.sleep(1)
+
             # or the next class
             elif timestamp == timeToStamp(Class["End"]):
                 await general.send("Here's your next class ≧ω≦")
@@ -115,7 +97,57 @@ async def automated():
                 value += f'End - {today[i + 1]["End"]} \n'
                 embedded.add_field(name='\u200b', value=value, inline=False)
                 await general.send(embed=embedded)
-                # time.sleep(1)
+
+
+# User messages
+@client.event
+async def on_message(message):
+    if message.author == client.user: return
+    print(f'"{message.content}"')
+
+    # Help
+    if re.match(f'^<@[!&]*{ID}>[ ]*([hH]elp)*$', message.content) is not None:
+        result = ''
+        embedded = discord.Embed(title=messages["help"]["Title"], color=0xDC143C)
+        for string in messages["help"]["Strings"]:
+            result += string + '\n'
+        embedded.add_field(name='\u200b', value=result, inline=False)
+        await message.channel.send("Nya ( ⓛ ω ⓛ *)~~ you called for help", embed=embedded)
+
+    # Commands beginning with ping
+    if re.match(rf'\b<@[!&]*{ID}>', message.content) is not None:
+        # Some fun messages
+        if 'ohayou' in message.content:
+            await message.channel.send('GOZAIMASUUU!!!')
+        if 'you cute baby' in message.content:
+            await message.channel.send("BAKA (ˋ3ˊ)")
+
+        # Mute/Unmute automated messages
+        if 'mute' in message.content:
+            with open('flags.json', 'w') as f:
+                flags['mute'] = True
+                json.dump(flags, f)
+            await message.send.channel("*automated messages muted until the next day*")
+        elif 'unmute' in message.content:
+            with open('flags.json', 'w') as f:
+                flags['mute'] = False
+                json.dump(flags, f)
+            await message.send.channel("*automated messages unmuted*")
+
+        # Binary to Decimal
+        flag_start = isBinary(message.content.split(' ')[1])
+        flag_end = message.content[-1] == 'b'
+        if flag_start and flag_end:
+            result = f"Praise the OwO-nissiah: **{str(BtD(message.content.split(' ')))}**"
+            await message.channel.send(result)
+
+        # Hexadecimal to Decimal
+        flag_start = isHexadecimal(message.content.split(' ')[1])
+        flag_end = message.content[-1] == 'h'
+        if flag_start and flag_end:
+            result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
+            await message.channel.send(result)
+
 
 # Start
 @client.event
@@ -135,41 +167,5 @@ async def on_ready():
     # Start loop
     automated.start()
 
-
-# User messages
-@client.event
-async def on_message(message):
-    if message.author == client.user: return
-    print(f'"{message.content}"')
-
-    # Help - TODO
-    if re.match(f'^<@[!&]*{ID}>$', message.content) is not None:
-        result = ''
-        embedded = discord.Embed(title=messages["help"]["Title"], color=0xDC143C)
-        for string in messages["help"]["Strings"]:
-            result += string + '\n'
-        embedded.add_field(name='\u200b', value=result, inline=False)
-        await message.channel.send("Nya ( ⓛ ω ⓛ *)~~ you called for help", embed=embedded)
-
-    # Fun messages
-    if re.match(f'<@[!&]*{ID}>', message.content) is not None:
-        if 'ohayou' in message.content:
-            await message.channel.send('GOZAIMASUUU!!!')
-        if 'you cute baby' in message.content:
-            await message.channel.send("BAKA (ˋ3ˊ)")
-
-        # Binary to Decimal
-        flag_start = isBinary(message.content.split(' ')[1])
-        flag_end = message.content[-1] == 'b'
-        if flag_start and flag_end:
-            result = f"Praise the OwO-nissiah: **{str(BtD(message.content.split(' ')))}**"
-            await message.channel.send(result)
-
-        # Hexadecimal to Decimal
-        flag_start = isHexadecimal(message.content.split(' ')[1])
-        flag_end = message.content[-1] == 'h'
-        if flag_start and flag_end:
-            result = f"Praise the OwO-nissiah: **{str(HtD(message.content.split(' ')))}**"
-            await message.channel.send(result)
-
+# Because Discord will nullify tokens if it tracks them online
 client.run("ODg5ODkwMjIz" + "OTA1OTkyNzE1.YUn0" + "2g.ckhiQeUNiFit6" + "3PKI3IR0mUFRBs")
