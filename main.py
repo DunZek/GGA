@@ -58,7 +58,7 @@ async def automated():
 
     # Send first-line messages
     startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
-    if timestamp == startOfClass[:3] + "45" startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
+    if timestamp == startOfClass[:3] + "45" + startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
         await general.send("Ohayou  ^ω^")
         # Remind weekend
         if current_weekday not in weekdays:
