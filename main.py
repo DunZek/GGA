@@ -204,4 +204,5 @@ async def on_ready():
     automated.start()
 
 # Because Discord will nullify tokens if it tracks them online
+print("DEBUG")
 client.run("ODg5ODkwMjIz" + "OTA1OTkyNzE1.YUn0" + "2g.ckhiQeUNiFit6" + "3PKI3IR0mUFRBs")
