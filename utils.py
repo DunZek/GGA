@@ -13,15 +13,10 @@ def BtD(words):
 
 # a helper function
 def isBinary(str):
-    # print(str)
     binary = "01"
     for char in str:
         if char not in binary:
             return False
-        # if char != "1":
-        #     if char != "0":
-        #         if str[-1] != 'b':
-        #             return False
     return True
 
 # Hexadecimal to Decimal
