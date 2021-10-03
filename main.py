@@ -1,5 +1,6 @@
 """
-Core:
+Other:
+! TODO G: Due date labels -> Class, Weekday
 
 Automated:
 ! TODO B: Remind us of our due dates
@@ -51,7 +52,7 @@ async def automated():
     # print(timestamp)
 
     # Unmute automated messages at midnight
-    if timestamp == "00:00:00":
+    if timestamp == "00:00:01":
         with open('flags.json', 'w') as f:
             flags['mute'] = False
             json.dump(flags, f)
