@@ -186,6 +186,10 @@ async def on_message(message):
         if 'you cute baby' in message.content:
             await message.channel.send("BAKA (ˋ3ˊ)")
 
+    # React to kind messages
+    if re.search('(thank you|ty|)+(group g|ai|goat|bot)+', 'thank you group g ai, very cool'):
+        await message.add_reaction('\U00002764')
+
 # Start
 @client.event
 async def on_ready():
