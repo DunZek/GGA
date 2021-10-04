@@ -204,7 +204,13 @@ async def on_ready():
     general = test_general  # TESTING
     # general = gg_general  # PRODUCTION
 
+    # Log
     await general.send("NYA!!!  ( ⓛ ω ⓛ *)")
+
+    # Manual
+    message = client.get_message(894687899314970624)
+    await message.add_reaction('\U00002764')
+    
     # Start loop
     automated.start()
 
