@@ -49,7 +49,7 @@ async def automated():
     current_weekday = date.strftime("%A")
 
     # Log
-    # print(timestamp)
+    print("Timestamp: ", timestamp)
 
     # Unmute automated messages at midnight
     if timestamp == "00:00:01":
