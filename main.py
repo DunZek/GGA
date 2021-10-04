@@ -187,7 +187,7 @@ async def on_message(message):
             await message.channel.send("BAKA (ˋ3ˊ)")
 
     # React to kind messages
-    if re.search('(thank you|ty|)+(group g|ai|goat|bot)+', 'thank you group g ai, very cool'):
+    if re.search('(thank you|ty|)+(group g|ai|goat|bot)+', message.content):
         await message.add_reaction('\U00002764')
 
 # Start
