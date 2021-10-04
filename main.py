@@ -113,7 +113,7 @@ async def automated():
 @client.event
 async def on_message(message):
     if message.author == client.user: return
-    print(f'"{message.content}"')
+    # print(f'"{message.content}"')
 
     # Help
     if re.match(f'^<@[!&]*{ID}>[ ]*([hH]elp)*$', message.content):
