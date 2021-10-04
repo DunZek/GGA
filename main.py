@@ -208,9 +208,9 @@ async def on_ready():
     await general.send("NYA!!!  ( ⓛ ω ⓛ *)")
 
     # Manual
-    message = client.get_message(894687899314970624)
+    message = ctx.get_message(894687899314970624)
     await message.add_reaction('\U00002764')
-    
+
     # Start loop
     automated.start()
 
