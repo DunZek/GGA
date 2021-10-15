@@ -64,16 +64,17 @@ async def automated():
     # Using midnight 00:00:00
     if timestamp == "00:00:00":
         # Remind people to get sleep
-        await general.send("GO TO SLEEP-- (≧▽≦) --SEE YOU TOMORROW!!")
+        await general.send("OYASUMINASAI!! GO TO SLEEP-- (≧▽≦) --SEE YOU TOMORROW!!")
 
     # Send first-line messages - no school
     if timestamp == "08:00:00":
-        await general.send("Ohayou  ^ω^")
         # Remind weekend
         if current_weekday not in weekdays:
+            await general.send("Ohayou  ^ω^")
             await general.send("No school enjoy your weekend (≧ω≦)")
         # Remind holidays/no schools/important days
         elif datestamp in holiday_dates:
+            await general.send("Ohayou  ^ω^")
             await general.send("It's a holiday no school!! (≧▽≦)")
 
     # Return if no school
@@ -81,8 +82,8 @@ async def automated():
         return
 
     # Send first-line messages - weekdays
-    startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
-    if timestamp == startOfClass[:3] + "45" + startOfClass[5:] or timestamp == "08:00:00":  # either "07:45:00" or "08:45:00"
+    #startOfClass = timeToStamp(schedule[current_weekday][0]["Start"])
+    if timestamp == "07:45:00":
         # Give us our daily IT schedule
         await general.send("Ohayou  ^ω^")
         await general.send("Here's your schedule", embed=getSchedule(current_weekday, schedule))
