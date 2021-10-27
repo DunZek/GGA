@@ -31,5 +31,9 @@
     "goodnight": "GO TO SLEEP (≧▽≦) SEE YOU TOMORROW!!",
     "goodmorning": "Ohayou  ^ω^",
     "weekends": "no school enjoy your weekend (≧ω≦)",
-    "holiday": "it's a holiday no school!! (≧▽≦)"
+    "holiday": "it's a holiday no school!! (≧▽≦)",
+    "update": ["My creator wanted to say some things!! (≧▽≦)\n", 
+        "**October 27, 2021 -- 1:19 AM:** I'm working on updating the bot to automatically allow due dates to be automatically scraped from my D2L calendar using my credentials. I will just be jamming to Unravel (Live) on this late night-early morning grind.\n", 
+        "**October 27, 2021 -- 4:15 AM:** It should be working. I hope everyone is well. This was the least I could do to support the server.\n",
+        "**October 27, 2021 -- 4:20 AM:** nice."]
 }

@@ -31,6 +31,7 @@ async def automated():
     # Discord channels
     test_general = client.get_channel(meta['Test']['channels']['general'])
     gg_general = client.get_channel(meta['Group G']['channels']['general'])
+
     # Setup to send automated messages
     if meta["Production"]:
         general = gg_general  # PRODUCTION
@@ -48,12 +49,19 @@ async def automated():
     timestamp = date.strftime("%X")
     current_weekday = date.strftime("%A")
 
+    # UPDATE NOTES - released for the specified time
+    if datestamp == meta['update-date'] and timestamp == meta['update-time']:
+        updates = ""
+        for string in messages["update"]:
+            updates += string
+        await test_general.send(updates)
+
     # Log
     print("Timestamp: ", timestamp)
 
     # Unmute automated messages at midnight
     if timestamp == "00:00:01":
-        with open('flags.json', 'w') as f:
+        with open('./json/flags.json', 'w') as f:
             flags['mute'] = False
             json.dump(flags, f)
 
@@ -155,13 +163,13 @@ async def on_message(message):
 
         # Mute/Unmute automated messages
         if re.search('[uU]nmute$', message.content):
-            with open('./flags.json', 'w') as f:
+            with open('./json/flags.json', 'w') as f:
                 flags['mute'] = False
                 json.dump(flags, f)
             await message.channel.send("*automated messages unmuted*")
             await client.change_presence(activity=None)
         elif re.search('[mM]ute$', message.content):
-            with open('./flags.json', 'w') as f:
+            with open('./json/flags.json', 'w') as f:
                 flags['mute'] = True
                 json.dump(flags, f)
             await message.channel.send("*automated messages muted until the next day*")
