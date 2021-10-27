@@ -1,15 +1,4 @@
-# Scrapes HTML from my D2L calendar
-# Should be regularly updated. Automated? No. Manually because I don't think I can do it automatically
-from bs4 import BeautifulSoup
-import re
-import json
-
-result = {}
-
-with open('html/october.html') as oct, open('html/november.html') as nov, open('html/december.html') as dec:
-    html_oct = oct.read()
-    html_nov = nov.read()
-    html_dec = dec.read()
+# Helper function to scrape HTML from my D2L calendar
 
 # Iterate through each HTML of each month (html, month name. month length)
 for item in [(html_oct, "October", 31), (html_nov, "November", 30), (html_dec, "December", 31)]:
