@@ -50,7 +50,7 @@ async def automated():
     current_weekday = date.strftime("%A")
 
     # UPDATE NOTES - released for the specified time
-    if datestamp == meta['update-date'] and timestamp == meta['update-time']:
+    if datestamp == meta['update-date'] and timestamp == '01:44:00':
         updates = ""
         for string in messages["update"]:
             updates += string
